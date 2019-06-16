@@ -3,6 +3,8 @@ rust:
   - stable
   - beta
   - nightly
+before_install:
+  - sudo apt-get install -y e2fslibs e2fslibs-dev
 matrix:
   allow_failures:
     - rust: nightly
