@@ -81,6 +81,10 @@ mod tests {
             assert_eq!(sb.s_blocks_per_group, 8192);
             assert_eq!(sb.s_magic, 0xEF53);
 
+            // The following test of list_super2 can create false errors when used with a
+            // non-up-to-date version of libe2p. Therefore it's disabled by default:
+            return ();
+
             path = env::current_dir().expect("Could not determine current dir");
             path.push("e2p-sys_testfile_eJoo1ca4");
             f = File::create(&path).expect("Could not create temporary file");
