@@ -41,43 +41,48 @@ mod tests {
 
     #[test]
     fn set_and_read_flags() {
+        let mut path = env::current_dir().expect("Could not determine current dir");
+        path.push("e2p-sys_testfile_Gahlu1ka");
+        let path_cstr = CString::new(path.to_str().expect("Could not convert path to str"))
+            .expect("Could not convert str to CStr");
+        let path_ptr: *const c_char = path_cstr.as_ptr();
+        let _f = File::create(&path).expect("Could not create file");
+
         unsafe {
-            let mut path = env::current_dir().expect("Could not determine current dir");
-            path.push("e2p-sys_testfile_Gahlu1ka");
-            let path_cstr = CString::new(path.to_str().expect("Could not convert path to str"))
-                .expect("Could not convert str to CStr");
-            let path_ptr: *const c_char = path_cstr.as_ptr();
-            let _f = File::create(&path).expect("Could not create file");
-
             fsetflags(path_ptr, EXT2_NOATIME_FL as u64);
-
-            let mut readback: u64 = 0;
-            let readback_ptr: *mut u64 = &mut readback;
-            fgetflags(path_ptr, readback_ptr);
-
-            drop(_f);
-            let _ = remove_file(path);
-
-            assert_eq!(readback, EXT2_NOATIME_FL as u64)
         }
+
+        let mut readback: u64 = 0;
+        let readback_ptr: *mut u64 = &mut readback;
+
+        unsafe {
+            fgetflags(path_ptr, readback_ptr);
+        }
+
+        drop(_f);
+        let _ = remove_file(path);
+
+        assert_eq!(readback, EXT2_NOATIME_FL as u64)
     }
 
 
     #[test]
     fn read_superblock() {
-        unsafe {
-            let mut path = env::current_dir().expect("Could not determine current dir");
-            path.push("test_data");
-            path.push("sb.raw");
-            let mut buf = [0; 1024];
-            let mut f = File::open(path).expect("Could not open superblock");
-            f.read(&mut buf).expect("Could not read from superblock");
-            let mut sb: ext2_super_block = transmute::<[u8; 1024], ext2_super_block>(buf);
+        let mut path = env::current_dir().expect("Could not determine current dir");
+        path.push("test_data");
+        path.push("sb.raw");
+        let mut buf = [0; 1024];
+        let mut f = File::open(path).expect("Could not open superblock");
+        f.read(&mut buf).expect("Could not read from superblock");
 
-            // Randomly selected values from the superblock
-            assert_eq!(sb.s_inodes_count, 256);
-            assert_eq!(sb.s_blocks_per_group, 8192);
-            assert_eq!(sb.s_magic, 0xEF53);
+        let mut sb: ext2_super_block;
+        unsafe {
+            sb = transmute::<[u8; 1024], ext2_super_block>(buf);
         }
+
+        // Randomly selected values from the superblock
+        assert_eq!(sb.s_inodes_count, 256);
+        assert_eq!(sb.s_blocks_per_group, 8192);
+        assert_eq!(sb.s_magic, 0xEF53);
     }
 }
