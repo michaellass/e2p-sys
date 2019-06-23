@@ -25,19 +25,38 @@ SOFTWARE.
 extern crate bindgen;
 extern crate metadeps;
 
+use regex::Regex;
 use std::env;
+use std::fs::File;
+use std::io::{BufRead,BufReader,Write};
 use std::path::PathBuf;
+use std::vec::Vec;
 
 fn main() {
-    metadeps::probe().expect("Could not satisfy library dependencies");
+    metadeps::probe().unwrap();
 
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
         .generate()
-        .expect("Unable to generate bindings");
+        .unwrap();
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
     bindings
         .write_to_file(out_path.join("bindings.rs"))
-        .expect("Couldn't write bindings!");
+        .unwrap();
+
+    // Determine a list of all public consts, so other crates know what they can expect
+    let re = Regex::new(r"^pub const ([^:]+):").unwrap();
+    let mut constants = Vec::new();
+    let f = File::open(out_path.join("bindings.rs")).unwrap();
+    let binding_code = BufReader::new(f);
+    for line in binding_code.lines() {
+        match re.captures(&line.unwrap()).and_then(|c| c.get(1)) {
+            Some(m) => constants.push(String::from(m.as_str())),
+            None => {},
+        };
+    }
+
+    let mut f = File::create(out_path.join("constants.rs")).unwrap();
+    write!(&mut f, "pub const constants: [&str; {}] = {:?};", constants.len(), constants).unwrap();
 }

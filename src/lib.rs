@@ -27,7 +27,7 @@ SOFTWARE.
 #![allow(non_snake_case)]
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
-
+include!(concat!(env!("OUT_DIR"), "/constants.rs"));
 
 #[cfg(test)]
 mod tests {
@@ -41,12 +41,11 @@ mod tests {
 
     #[test]
     fn set_and_read_flags() {
-        let mut path = env::current_dir().expect("Could not determine current dir");
+        let mut path = env::current_dir().unwrap();
         path.push("e2p-sys_testfile_Gahlu1ka");
-        let path_cstr = CString::new(path.to_str().expect("Could not convert path to str"))
-            .expect("Could not convert str to CStr");
+        let path_cstr = CString::new(path.to_str().unwrap()).unwrap();
         let path_ptr: *const c_char = path_cstr.as_ptr();
-        let _f = File::create(&path).expect("Could not create file");
+        let _f = File::create(&path).unwrap();
 
         unsafe {
             fsetflags(path_ptr, EXT2_NOATIME_FL as u64);
@@ -59,23 +58,21 @@ mod tests {
             fgetflags(path_ptr, readback_ptr);
         }
 
-        drop(_f);
-        let _ = remove_file(path);
-
+        remove_file(path).unwrap();
         assert_eq!(readback, EXT2_NOATIME_FL as u64)
     }
 
 
     #[test]
     fn read_superblock() {
-        let mut path = env::current_dir().expect("Could not determine current dir");
+        let mut path = env::current_dir().unwrap();
         path.push("test_data");
         path.push("sb.raw");
         let mut buf = [0; 1024];
-        let mut f = File::open(path).expect("Could not open superblock");
-        f.read(&mut buf).expect("Could not read from superblock");
+        let mut f = File::open(path).unwrap();
+        f.read(&mut buf).unwrap();
 
-        let mut sb: ext2_super_block;
+        let sb: ext2_super_block;
         unsafe {
             sb = transmute::<[u8; 1024], ext2_super_block>(buf);
         }
@@ -84,5 +81,12 @@ mod tests {
         assert_eq!(sb.s_inodes_count, 256);
         assert_eq!(sb.s_blocks_per_group, 8192);
         assert_eq!(sb.s_magic, 0xEF53);
+    }
+
+    #[test]
+    fn read_constant() {
+        assert!(constants.iter().any(|&s| s == "EXT2_IMMUTABLE_FL"));
+        assert!(!constants.iter().any(|&s| s == "NO_SUCH_CONST"));
+        assert_eq!(EXT2_IMMUTABLE_FL, 0x10);
     }
 }
