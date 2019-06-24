@@ -62,7 +62,6 @@ mod tests {
         assert_eq!(readback, EXT2_NOATIME_FL as u64)
     }
 
-
     #[test]
     fn read_superblock() {
         let mut path = env::current_dir().unwrap();

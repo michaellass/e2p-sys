@@ -57,5 +57,11 @@ fn main() {
     }
 
     let mut f = File::create(out_path.join("constants.rs")).unwrap();
-    write!(&mut f, "pub const constants: [&str; {}] = {:?};", constants.len(), constants).unwrap();
+    write!(
+        &mut f,
+        "pub const constants: [&str; {}] = {:?};",
+        constants.len(),
+        constants
+    )
+    .unwrap();
 }
