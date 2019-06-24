@@ -28,7 +28,7 @@ extern crate metadeps;
 use regex::Regex;
 use std::env;
 use std::fs::File;
-use std::io::{BufRead,BufReader,Write};
+use std::io::Write;
 use std::path::PathBuf;
 use std::vec::Vec;
 
@@ -46,14 +46,13 @@ fn main() {
         .unwrap();
 
     // Determine a list of all public consts, so other crates know what they can expect
-    let re = Regex::new(r"^pub const ([^:]+):").unwrap();
+    let re = Regex::new(r"(?m)^|\s+pub const ([^: ]+)\s?:").unwrap();
     let mut constants = Vec::new();
-    let f = File::open(out_path.join("bindings.rs")).unwrap();
-    let binding_code = BufReader::new(f);
-    for line in binding_code.lines() {
-        match re.captures(&line.unwrap()).and_then(|c| c.get(1)) {
+    let binding_code = bindings.to_string();
+    for cap in re.captures_iter(&binding_code) {
+        match cap.get(1) {
             Some(m) => constants.push(String::from(m.as_str())),
-            None => {},
+            None => {}
         };
     }
 
