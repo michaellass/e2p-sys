@@ -1,6 +1,6 @@
 # e2p-sys: Low-level Rust bindings for libe2p from e2fsprogs
 
-[![Build Status](https://travis-ci.com/michaellass/e2p-sys.svg?branch=master)](https://travis-ci.com/michaellass/e2p-sys)
+[![CI](https://github.com/michaellass/e2p-sys/actions/workflows/ci.yml/badge.svg)](https://github.com/michaellass/e2p-sys/actions/workflows/ci.yml)
 [![license](https://img.shields.io/github/license/michaellass/e2p-sys.svg)](https://github.com/michaellass/e2p-sys/blob/master/LICENSE)
 [![crates.io](https://img.shields.io/crates/v/e2p-sys.svg)](https://crates.io/crates/e2p-sys)
 
