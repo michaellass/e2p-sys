@@ -69,7 +69,7 @@ mod tests {
         path.push("sb.raw");
         let mut buf = [0; 1024];
         let mut f = File::open(path).unwrap();
-        f.read(&mut buf).unwrap();
+        f.read_exact(&mut buf).unwrap();
 
         let sb: ext2_super_block;
         unsafe {

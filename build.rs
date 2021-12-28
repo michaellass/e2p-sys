@@ -50,10 +50,7 @@ fn main() {
     let mut constants = Vec::new();
     let binding_code = bindings.to_string();
     for cap in re.captures_iter(&binding_code) {
-        match cap.get(1) {
-            Some(m) => constants.push(String::from(m.as_str())),
-            None => {}
-        };
+        if let Some(m) = cap.get(1) { constants.push(String::from(m.as_str())) }
     }
 
     let mut f = File::create(out_path.join("constants.rs")).unwrap();
