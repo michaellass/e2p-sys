@@ -18,7 +18,7 @@ version = "0.1.0"
 travis-ci = { repository = "michaellass/e2p-sys", branch = "master" }
 
 [build-dependencies]
-bindgen = "^0.60.1"
+bindgen = { version = "0.60", default-features = false, features = ["runtime"] }
 metadeps = "^1.1.2"
 regex = "^1.3.9"
 
