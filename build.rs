@@ -63,7 +63,7 @@ fn main() {
         "\
 /// A list of all public constants. Can be used to test for the
 /// existence of certain constants in the system's libe2p.
-pub const constants: [&str; {}] = {:?};",
+pub const CONSTANTS: [&str; {}] = {:?};",
         constants.len(),
         constants
     )

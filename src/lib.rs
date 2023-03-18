@@ -96,8 +96,8 @@ mod tests {
 
     #[test]
     fn read_constant() {
-        assert!(constants.iter().any(|&s| s == "EXT2_IMMUTABLE_FL"));
-        assert!(!constants.iter().any(|&s| s == "NO_SUCH_CONST"));
+        assert!(CONSTANTS.iter().any(|&s| s == "EXT2_IMMUTABLE_FL"));
+        assert!(!CONSTANTS.iter().any(|&s| s == "NO_SUCH_CONST"));
         assert_eq!(EXT2_IMMUTABLE_FL, 0x10);
     }
 }
