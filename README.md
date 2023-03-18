@@ -3,6 +3,7 @@
 [![CI](https://github.com/michaellass/e2p-sys/actions/workflows/ci.yml/badge.svg)](https://github.com/michaellass/e2p-sys/actions/workflows/ci.yml)
 [![license](https://img.shields.io/github/license/michaellass/e2p-sys.svg)](https://github.com/michaellass/e2p-sys/blob/master/LICENSE)
 [![crates.io](https://img.shields.io/crates/v/e2p-sys.svg)](https://crates.io/crates/e2p-sys)
+[![docs.rs](https://docs.rs/e2p-sys/badge.svg)](https://docs.rs/e2p-sys)
 
 This crate makes available functionality from libe2p. The bindings are automatically created by bindgen.
 
