@@ -22,9 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#![warn(rust_2018_idioms)]
 #![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
+
+//! Low-level Rust bindings for libe2p from e2fsprogs
+//!
+//! The bindings need to be generated using bindgen while building this
+//! crate because libe2p has no stable API and available file flags or
+//! file system features differ between versions. This also means that
+//! publicly availale documentation on this crate might not be accurate
+//! on your system.
+//!
+//! For building this crate, you need to have e2fsprogs-dev (also called
+//! e2fslibs-dev or libext2fs-dev) and libclang installed.
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 include!(concat!(env!("OUT_DIR"), "/constants.rs"));

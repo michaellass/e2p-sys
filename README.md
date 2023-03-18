@@ -13,8 +13,7 @@ This crate makes available functionality from libe2p. The bindings are automatic
   * libext2fs(-dev)
 * libclang is required by bindgen. This is sometimes packaged as libclang1.
 
-  Note that after an update of libe2p, you may need to rebuild this crate to get
-  access to any newly introduced flags.
+Note that after an update of libe2p, you may need to rebuild this crate to get access to any newly introduced flags.
 
 ## Intended Use
 This crate should not be used directly. It's intended to be used to form higher-level abstractions.

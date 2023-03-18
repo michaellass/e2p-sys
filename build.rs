@@ -52,13 +52,18 @@ fn main() {
     let mut constants = Vec::new();
     let binding_code = bindings.to_string();
     for cap in re.captures_iter(&binding_code) {
-        if let Some(m) = cap.get(1) { constants.push(String::from(m.as_str())) }
+        if let Some(m) = cap.get(1) {
+            constants.push(String::from(m.as_str()))
+        }
     }
 
     let mut f = File::create(out_path.join("constants.rs")).unwrap();
     write!(
         &mut f,
-        "pub const constants: [&str; {}] = {:?};",
+        "\
+/// A list of all public constants. Can be used to test for the
+/// existence of certain constants in the system's libe2p.
+pub const constants: [&str; {}] = {:?};",
         constants.len(),
         constants
     )
