@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2019 Michael Lass
+Copyright (c) 2019-2023 Michael Lass
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,7 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
+        .allowlist_file(r"(.*/e2p\.h)|(.*/ext2.*\.h)")
         .generate()
         .unwrap();
 
