@@ -10,7 +10,8 @@ This crate makes available functionality from libe2p. The bindings are automatic
 * libe2p, including development headers. Linux distributions typically packages those under one of the following names:
   * e2fsprogs(-dev)
   * e2fslibs(-dev)
-* libclang is required by bindgen
+  * libext2fs(-dev)
+* libclang is required by bindgen. This is sometimes packaged as libclang1.
 
   Note that after an update of libe2p, you may need to rebuild this crate to get
   access to any newly introduced flags.

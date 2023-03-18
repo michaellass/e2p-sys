@@ -9,18 +9,14 @@ keywords = ["e2fsprogs", "e2fslibs", "ext2", "ext3", "ext4"]
 license = "MIT"
 links = "e2p"
 name = "e2p-sys"
-publish = false
 readme = "README.md"
 repository = "https://github.com/michaellass/e2p-sys.git"
 version = "0.1.0"
 
-[badges]
-travis-ci = { repository = "michaellass/e2p-sys", branch = "master" }
-
 [build-dependencies]
 bindgen = { version = "0.64", default-features = false, features = ["runtime"] }
-metadeps = "^1.1.2"
-regex = "^1.3.9"
+metadeps = "1.1.2"
+regex = "1.3.9"
 
 [package.metadata.pkg-config]
 e2p = "*"
