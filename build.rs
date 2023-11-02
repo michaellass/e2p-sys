@@ -38,7 +38,7 @@ fn main() {
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
         .allowlist_file(r"(.*/e2p\.h)|(.*/ext2.*\.h)")
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .unwrap();
 
