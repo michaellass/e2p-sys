@@ -46,7 +46,7 @@ mod tests {
     use super::*;
     use std::env;
     use std::ffi::CString;
-    use std::fs::{remove_file, File};
+    use std::fs::{File, remove_file};
     use std::io::Read;
     use std::mem::transmute;
     use std::os::raw::c_char;
