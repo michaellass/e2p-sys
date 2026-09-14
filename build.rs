@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 extern crate bindgen;
-extern crate metadeps;
+extern crate system_deps;
 
 use regex::Regex;
 use std::env;
@@ -33,7 +33,7 @@ use std::path::PathBuf;
 use std::vec::Vec;
 
 fn main() {
-    metadeps::probe().unwrap();
+    system_deps::Config::new().probe().unwrap();
 
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
